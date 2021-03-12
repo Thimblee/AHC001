@@ -115,24 +115,14 @@ void solve() {
     int dy[] = {1, 0, 1, 0};
     int dxx[] = {1, 1, -1, -1};
     int dyy[] = {1, -1, 1, -1};
+    int devide[] = {1500, 3750, 9375, 23438, 58594, MAX};
+
     double highest = 0;
     for (int i = 0; i < 4; ++i) {
-        for (int j = 0; j < 3; ++j) {
-            if (j == 0) {
-                sort(all(xyr), [&](auto& a, auto& b)
-                {return dx[i]*a[1] + (MAX-a[1])*(dx[i]^1) + dy[i]*a[2] + (MAX-a[2])*(dy[i]^1)
-                > dx[i]*b[1] + (MAX-b[1])*(dx[i]^1) + dy[i]*b[2] + (MAX-b[2])*(dy[i]^1);});
-            }
-            else if (j == 1) {
-                sort(all(xyr), [&](auto& a, auto& b)
-                {return dx[i]*a[1] + (MAX-a[1])*(dx[i]^1) + dy[i]*a[2] + (MAX-a[2])*(dy[i]^1) + a[3]/5000
-                > dx[i]*b[1] + (MAX-b[1])*(dx[i]^1) + dy[i]*b[2] + (MAX-b[2])*(dy[i]^1) + b[3]/5000;});
-            }
-            else {
-                sort(all(xyr), [&](auto& a, auto& b)
-                {return dx[i]*a[1] + (MAX-a[1])*(dx[i]^1) + dy[i]*a[2] + (MAX-a[2])*(dy[i]^1) + a[3]/10000
-                > dx[i]*b[1] + (MAX-b[1])*(dx[i]^1) + dy[i]*b[2] + (MAX-b[2])*(dy[i]^1) + b[3]/10000;});
-            }
+        for (int j = 0; j < 6; ++j) {
+            sort(all(xyr), [&](auto& a, auto& b)
+            {return dx[i]*a[1] + (dx[i]^1)*(MAX-a[1]) + dy[i]*a[2] + (dy[i]^1)*(MAX-a[2]) + a[3]/devide[j]
+            > dx[i]*b[1] + (dx[i]^1)*(MAX-b[1]) + dy[i]*b[2] + (dy[i]^1)*(MAX-b[2]) + b[3]/devide[j];});
 
             memset(flgs, false, sizeof(flgs));
             rep(k, n) flgs[xyr[k][2]][xyr[k][1]] = true;
